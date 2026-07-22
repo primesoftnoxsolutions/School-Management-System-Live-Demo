@@ -93,10 +93,4 @@ Sample logins:
 | Teacher | `imran.ali@insaf.demo` | `Teacher@123` |
 | Student | `ahmed.khan@insaf.demo` | `Student@123` |
 
-### Frontend-only demo (Vercel)
-
-For a frontend-only deploy, demo auth is **on by default** (`VITE_USE_DEMO_AUTH=true` in `Frontend/.env`). Login works without the backend using the sample accounts above (fields autofill when you pick a role).
-
-When the API is live again, set `VITE_USE_DEMO_AUTH=false` and rebuild.
-
-> **Vercel note:** With demo auth you can host only the frontend. Full live data still needs a backend + MongoDB Atlas (or similar).
+> **Vercel note:** Vercel hosts the frontend well, but MongoDB data must live on **MongoDB Atlas** (or another hosted DB). Point `MONGODB_URI` to Atlas and run `seed:showcase` once against that URI so the live demo has data.

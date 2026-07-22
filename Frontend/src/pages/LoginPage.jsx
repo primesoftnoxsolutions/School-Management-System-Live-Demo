@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDemoCredentialsForRole, USE_DEMO_AUTH } from "../mocks/demoAuth";
 import { login } from "../store/authSlice";
 import { useAppTheme } from "../hooks/useAppTheme";
 
@@ -29,10 +28,7 @@ const PRINCIPAL = {
 
 const HIGHLIGHT_ICONS = ["users", "fees", "calendar", "staff", "shield", "chart"];
 
-function getRoleDefaults(role) {
-  if (USE_DEMO_AUTH) {
-    return getDemoCredentialsForRole(role);
-  }
+function getRoleDefaults() {
   return { ...EMPTY_FORM };
 }
 

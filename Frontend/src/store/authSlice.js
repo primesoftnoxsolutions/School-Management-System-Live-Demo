@@ -1,12 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../services/api/client";
-import {
-  USE_DEMO_AUTH,
-  authenticateDemo,
-  clearStoredDemoUser,
-  getStoredDemoUser,
-  storeDemoUser,
-} from "../mocks/demoAuth";
 
 const initialState = {
   user: null,
@@ -22,18 +15,6 @@ localStorage.removeItem("accessToken");
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const login = createAsyncThunk("auth/login", async (payload, { rejectWithValue }) => {
-  if (USE_DEMO_AUTH) {
-    try {
-      await wait(700);
-      const user = authenticateDemo(payload);
-      storeDemoUser(user);
-      return { user };
-    } catch {
-      await wait(400);
-      return rejectWithValue("Wrong login details");
-    }
-  }
-
   try {
     const [{ data }] = await Promise.all([api.post("/auth/login", payload), wait(900)]);
     return data.data;
@@ -50,10 +31,6 @@ export const login = createAsyncThunk("auth/login", async (payload, { rejectWith
 });
 
 export const fetchMe = createAsyncThunk("auth/fetchMe", async (_, { rejectWithValue }) => {
-  if (USE_DEMO_AUTH) {
-    return getStoredDemoUser();
-  }
-
   try {
     const { data } = await api.get("/auth/me");
     return data.data;
@@ -63,11 +40,6 @@ export const fetchMe = createAsyncThunk("auth/fetchMe", async (_, { rejectWithVa
 });
 
 export const logoutUser = createAsyncThunk("auth/logout", async (_, { rejectWithValue }) => {
-  if (USE_DEMO_AUTH) {
-    clearStoredDemoUser();
-    return true;
-  }
-
   try {
     await api.post("/auth/logout");
   } catch (error) {
@@ -83,11 +55,7 @@ const authSlice = createSlice({
       state.user = null;
       state.justLoggedIn = false;
       state.sessionChecked = true;
-      if (USE_DEMO_AUTH) {
-        clearStoredDemoUser();
-      } else {
-        sessionStorage.removeItem("hadSession");
-      }
+      sessionStorage.removeItem("hadSession");
     },
     clearJustLoggedIn(state) {
       state.justLoggedIn = false;
