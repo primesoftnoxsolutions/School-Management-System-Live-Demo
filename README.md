@@ -101,3 +101,16 @@ Deploy from the **repo root** (Root Directory empty). Folder names are `Backend`
 
 Build: install once (`npm ci --include=dev`), then `npm run build` only (do not run `npm ci` again — causes `EBUSY` on Railway’s `node_modules/.cache` mount). Node **22** via `.nvmrc` / `nixpacks.toml`.
 
+Required Variables (Variables tab — **no quotes** around values):
+
+| Variable | Example |
+|----------|---------|
+| `MONGODB_URI` | `mongodb+srv://USER:PASS@cluster.mongodb.net/school_erp?retryWrites=true&w=majority` |
+| `SESSION_SECRET` | long random hex |
+| `FRONTEND_URL` | your public site URL |
+| `NODE_ENV` | `production` |
+| `SEED_ADMIN_EMAIL` | `admin@yourschool.com` |
+| `SEED_ADMIN_PASSWORD` | strong password |
+
+`MONGODB_URI` **must** start with `mongodb://` or `mongodb+srv://`. If the password has `@`, encode it as `%40`.
+
