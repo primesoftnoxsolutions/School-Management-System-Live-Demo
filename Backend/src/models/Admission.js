@@ -14,7 +14,6 @@ const admissionSchema = new mongoose.Schema(
       type: String,
       trim: true,
       default: "",
-      index: true,
     },
     status: {
       type: String,

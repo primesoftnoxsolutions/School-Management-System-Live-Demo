@@ -20,11 +20,21 @@ const start = async () => {
     );
   }
 
-  app.listen(env.port, () => {
+  const server = app.listen(env.port, () => {
     console.log(`Server running on port ${env.port} (${env.nodeEnv})`);
     if (env.isProduction) {
       console.log("Production mode: open http://localhost:" + env.port);
     }
+  });
+
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(
+        `Port ${env.port} is already in use. Stop the other backend (Ctrl+C) or kill the process on that port, then try again.`
+      );
+      process.exit(1);
+    }
+    throw err;
   });
 };
 
