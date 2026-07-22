@@ -5,6 +5,8 @@
   "workspaces": [
     "Backend",
     "Frontend"
+    "Backend",
+    "Frontend"
   ],
   "scripts": {
     "dev:backend": "npm --workspace school-erp-backend run dev",
