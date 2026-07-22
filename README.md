@@ -99,5 +99,5 @@ Sample logins:
 
 Deploy from the **repo root** (Root Directory empty). Folder names are `Backend` / `Frontend` — workspaces must match that casing on Linux.
 
-Build uses `npm ci --include=dev && npm run build` (Vite is a devDependency). Start: `npm run start`.
+Build: install once (`npm ci --include=dev`), then `npm run build` only (do not run `npm ci` again — causes `EBUSY` on Railway’s `node_modules/.cache` mount). Node **22** via `.nvmrc` / `nixpacks.toml`.
 

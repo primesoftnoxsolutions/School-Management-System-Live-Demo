@@ -1,6 +1,7 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "npm ci --include=dev && npm run build"
+# Install phase already runs npm ci — do NOT run it again (EBUSY on node_modules/.cache mount).
+buildCommand = "npm run build"
 
 [deploy]
 startCommand = "npm run start"

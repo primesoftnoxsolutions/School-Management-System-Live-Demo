@@ -2,15 +2,17 @@ providers = ["node"]
 
 [variables]
 NPM_CONFIG_PRODUCTION = "false"
-NIXPACKS_NODE_VERSION = "20"
+NPM_CONFIG_CACHE = "/tmp/npm-cache"
+NIXPACKS_NODE_VERSION = "22"
 
 [phases.setup]
-nixPkgs = ["nodejs_20"]
+nixPkgs = ["nodejs_22"]
 
 [phases.install]
 cmds = ["npm ci --include=dev"]
 
 [phases.build]
+# Only build — never npm ci here (conflicts with Nixpacks node_modules/.cache mount).
 cmds = ["npm run build"]
 
 [start]

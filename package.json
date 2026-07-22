@@ -2,6 +2,9 @@
   "name": "school-management-system",
   "private": true,
   "version": "1.0.0",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "workspaces": [
     "Backend",
     "Frontend"
@@ -16,8 +19,5 @@
   },
   "devDependencies": {
     "concurrently": "^9.0.1"
-  },
-  "dependencies": {
-    "mongodb": "^7.3.0"
   }
 }
