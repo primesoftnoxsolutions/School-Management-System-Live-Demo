@@ -44,7 +44,10 @@ app.use(
 
 const corsOrigin = env.isProduction
   ? env.frontendUrl
-    ? [env.frontendUrl, env.frontendUrl.replace(/\/$/, "")]
+    ? [
+        env.frontendUrl.replace(/\/$/, ""),
+        "https://school-management-system-live-demo.vercel.app",
+      ].filter((value, index, list) => list.indexOf(value) === index)
     : true
   : "http://localhost:5173";
 

@@ -23,10 +23,20 @@ export const login = createAsyncThunk("auth/login", async (payload, { rejectWith
     if (!error.response) {
       return rejectWithValue("Server unavailable. Check backend server.");
     }
-    if ([400, 401, 403].includes(error.response.status)) {
+    const status = error.response.status;
+    const apiMessage = error.response?.data?.message;
+    if (status === 503 && apiMessage) {
+      return rejectWithValue(apiMessage);
+    }
+    if ([400, 401, 403].includes(status)) {
       return rejectWithValue("Wrong login details");
     }
-    return rejectWithValue(error.response?.data?.message || "Login failed");
+    if (status === 404) {
+      return rejectWithValue(
+        "API not reachable from Vercel. Set BACKEND_URL to your Railway URL and redeploy."
+      );
+    }
+    return rejectWithValue(apiMessage || "Login failed");
   }
 });
 

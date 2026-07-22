@@ -121,6 +121,12 @@ Also set:
 
 If frontend is on **Vercel** and API on **Railway**:
 
-1. Railway `FRONTEND_URL` = your Vercel URL (e.g. `https://your-app.vercel.app`)
-2. Vercel env `VITE_API_ORIGIN` = your Railway URL (e.g. `https://your-api.up.railway.app`) then redeploy frontend
+1. Railway Variables → `FRONTEND_URL` = `https://school-management-system-live-demo.vercel.app`
+2. Vercel → Settings → Environment Variables → add:
+   - **Name:** `BACKEND_URL`
+   - **Value:** your Railway public URL (Settings → Networking → Public Domain), e.g. `https://xxxx.up.railway.app`  
+     (no trailing slash, do **not** include `/api`)
+3. Redeploy **both** (push this repo, or Redeploy in Vercel after saving the variable)
+
+Vercel middleware proxies `/api/*` to Railway so login cookies work on the Vercel domain.
 

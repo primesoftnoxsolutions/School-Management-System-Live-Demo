@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm ci --include=dev && npm run build",
+  "outputDirectory": "Frontend/dist",
+  "installCommand": "npm ci --include=dev",
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
