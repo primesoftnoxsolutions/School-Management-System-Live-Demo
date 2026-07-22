@@ -2,8 +2,8 @@ import { User } from "../models/User.js";
 import { env } from "../config/env.js";
 
 /**
- * Creates the first Super Admin only when SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD are set.
- * No hardcoded demo credentials.
+ * Ensures Super Admin exists from SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD.
+ * Updates password when the seed email already exists (so Railway redeploys keep login working).
  */
 export const seedSuperAdmin = async () => {
   const email = String(env.seedAdminEmail || "")
@@ -25,18 +25,30 @@ export const seedSuperAdmin = async () => {
   let user = await User.findOne({ email, isDeleted: false }).select("+password");
 
   if (user) {
+    let changed = false;
     if (user.role !== "SUPER_ADMIN") {
       user.role = "SUPER_ADMIN";
-      user.updatedBy = "system";
+      changed = true;
+    }
+    if (!user.isActive) {
+      user.isActive = true;
+      changed = true;
+    }
+    // Always sync seed password so demo / Railway logins stay predictable.
+    user.password = password;
+    user.updatedBy = "system";
+    changed = true;
+    if (changed) {
       await user.save();
+      console.log(`Updated seed super admin: ${email}`);
     }
     return;
   }
 
   const adminCount = await User.countDocuments({ role: "SUPER_ADMIN", isDeleted: false });
   if (adminCount > 0) {
-    console.log("Super admin already exists — seed skipped.");
-    return;
+    // Another admin exists under a different email — still create this seed account for demos.
+    console.log("Another super admin exists; creating seed admin account anyway.");
   }
 
   await User.create({

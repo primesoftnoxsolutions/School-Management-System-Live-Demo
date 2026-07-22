@@ -114,3 +114,13 @@ Required Variables (Variables tab — **no quotes** around values):
 
 `MONGODB_URI` **must** start with `mongodb://` or `mongodb+srv://`. If the password has `@`, encode it as `%40`.
 
+Also set:
+
+- `SEED_SHOWCASE=true` (demo teacher/student/finance logins)
+- `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` (Super Admin)
+
+If frontend is on **Vercel** and API on **Railway**:
+
+1. Railway `FRONTEND_URL` = your Vercel URL (e.g. `https://your-app.vercel.app`)
+2. Vercel env `VITE_API_ORIGIN` = your Railway URL (e.g. `https://your-api.up.railway.app`) then redeploy frontend
+

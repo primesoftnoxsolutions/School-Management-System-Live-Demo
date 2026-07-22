@@ -43,12 +43,30 @@ app.use(
 );
 
 const corsOrigin = env.isProduction
-  ? env.frontendUrl || true
+  ? env.frontendUrl
+    ? [env.frontendUrl, env.frontendUrl.replace(/\/$/, "")]
+    : true
   : "http://localhost:5173";
 
 app.use(
   cors({
-    origin: corsOrigin,
+    origin: (origin, callback) => {
+      // Same-origin / server-to-server / curl have no Origin header.
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+      if (corsOrigin === true) {
+        callback(null, true);
+        return;
+      }
+      const allowed = Array.isArray(corsOrigin) ? corsOrigin : [corsOrigin];
+      if (allowed.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+      callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
     credentials: true,
   })
 );
