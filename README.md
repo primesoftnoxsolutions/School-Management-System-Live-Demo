@@ -14,7 +14,7 @@ Enterprise School ERP with:
 
 1. Install dependencies: `npm install`
 2. Configure backend env: copy `backend/.env.example` to `backend/.env`
-3. Start MongoDB (for persistent data): `npm run mongo:start --workspace backend`
+3. Start MongoDB (for persistent data): `npm run mongo:start --workspace school-erp-backend`
    - If MongoDB is not running, backend uses an in-memory DB in development only
 4. Run both apps: `npm run dev`
    - Frontend: http://localhost:5173
@@ -81,7 +81,7 @@ On startup (when `SEED_SHOWCASE` is not `false`), the backend loads sample teach
 Re-run manually anytime:
 
 ```bash
-npm run seed:showcase --workspace backend
+npm run seed:showcase --workspace school-erp-backend
 ```
 
 Sample logins:
@@ -94,3 +94,19 @@ Sample logins:
 | Student | `ahmed.khan@insaf.demo` | `Student@123` |
 
 > **Vercel note:** Vercel hosts the frontend well, but MongoDB data must live on **MongoDB Atlas** (or another hosted DB). Point `MONGODB_URI` to Atlas and run `seed:showcase` once against that URI so the live demo has data.
+
+### Railway (backend)
+
+Deploy from the **repo root** (do not set Root Directory to `Backend` — `npm ci` needs the root `package-lock.json`).
+
+Required env vars:
+
+- `MONGODB_URI` — Atlas connection string (URL-encode special chars in the password, e.g. `@` → `%40`)
+- `SESSION_SECRET` — long random string
+- `FRONTEND_URL` — your Vercel frontend URL (for CORS)
+- `NODE_ENV=production`
+- `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` (first Super Admin)
+- Optional: `SEED_SHOWCASE=true`, `COOKIE_SECURE=false` only if not on HTTPS
+
+Start command (also in `railway.toml`): `npm run start`
+
