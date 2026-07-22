@@ -14,7 +14,7 @@ Enterprise School ERP with:
 
 1. Install dependencies: `npm install`
 2. Configure backend env: copy `backend/.env.example` to `backend/.env`
-3. Start MongoDB (for persistent data): `npm run mongo:start --workspace backend`
+3. Start MongoDB (for persistent data): `npm run mongo:start --workspace school-erp-backend`
    - If MongoDB is not running, backend uses an in-memory DB in development only
 4. Run both apps: `npm run dev`
    - Frontend: http://localhost:5173
@@ -81,7 +81,7 @@ On startup (when `SEED_SHOWCASE` is not `false`), the backend loads sample teach
 Re-run manually anytime:
 
 ```bash
-npm run seed:showcase --workspace backend
+npm run seed:showcase --workspace school-erp-backend
 ```
 
 Sample logins:
@@ -94,3 +94,10 @@ Sample logins:
 | Student | `ahmed.khan@insaf.demo` | `Student@123` |
 
 > **Vercel note:** Vercel hosts the frontend well, but MongoDB data must live on **MongoDB Atlas** (or another hosted DB). Point `MONGODB_URI` to Atlas and run `seed:showcase` once against that URI so the live demo has data.
+
+### Railway
+
+Deploy from the **repo root** (Root Directory empty). Folder names are `Backend` / `Frontend` — workspaces must match that casing on Linux.
+
+Build uses `npm ci --include=dev && npm run build` (Vite is a devDependency). Start: `npm run start`.
+
